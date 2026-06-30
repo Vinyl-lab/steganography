@@ -221,20 +221,24 @@ Status encode_data_to_image(char *data, int size, FILE *fptr_src_image, FILE *fp
 Status encode_magic_string(const char *magic_string, EncodeInfo *encInfo)
 {
     encode_data_to_image((char *)magic_string, strlen(magic_string), encInfo->fptr_src_image, encInfo->fptr_stego_image);
+    return e_success;
 }
 Status encode_secret_file_extn_size(long extn_size, EncodeInfo *encInfo)
 {
     encode_data_to_image((char *)&extn_size, sizeof(int), encInfo->fptr_src_image, encInfo->fptr_stego_image);
+    return e_success;
 }
 
 Status encode_secret_file_extn(const char *file_extn, EncodeInfo *encInfo)
 {
     printf("File extension is %s\n", file_extn);
     encode_data_to_image((char *)file_extn, strlen(file_extn), encInfo->fptr_src_image, encInfo->fptr_stego_image);
+    return e_success;
 }
 Status encode_secret_file_size(long file_size, EncodeInfo *encInfo)
 {
     encode_data_to_image((char *)&file_size, sizeof(int), encInfo->fptr_src_image, encInfo->fptr_stego_image);
+    return e_success;
 }
 
 Status encode_secret_file_data(EncodeInfo *encInfo)
@@ -256,7 +260,7 @@ Status copy_remaining_img_data(FILE *fptr_src_image, FILE *fptr_stego_image)
 {
     char buffer[1024];
     size_t bytes_read;
-    while(bytes_read = fread(buffer, 1, sizeof(buffer), fptr_src_image))
+    while((bytes_read = fread(buffer, 1, sizeof(buffer), fptr_src_image)))
     {
         if(fwrite(buffer, 1, bytes_read, fptr_stego_image)!=bytes_read)
         {
